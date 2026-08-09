@@ -33,6 +33,22 @@ print_step() {
 
 # Main setup routine
 main() {
+    # Refuse to run as root
+    if [ "$EUID" -eq 0 ]; then
+        echo -e "${RED}ERROR: Do not run Real Shell setup as root.${NC}"
+        echo
+        echo "Run:"
+        echo "  ./scripts/setup.sh"
+        echo
+        exit 1
+    fi
+    
+    # Check for sudo availability
+    if ! command -v sudo >/dev/null 2>&1; then
+        echo -e "${RED}ERROR: sudo is required for system package installation.${NC}"
+        exit 1
+    fi
+    
     print_header "       REAL SHELL SETUP"
     
     local total_steps=6
@@ -54,17 +70,11 @@ main() {
     ((current_step++))
     print_step $current_step $total_steps "Installing dependencies"
     
-    if [ "$EUID" -ne 0 ]; then
-        echo -e "${YELLOW}⚠${NC} Not running as root"
-        echo -e "  Skipping package installation"
-        echo -e "  Run ${BLUE}sudo ./scripts/install.sh${NC} to install dependencies"
+    if "$SCRIPT_DIR/install.sh"; then
+        echo -e "${GREEN}✓${NC} Dependencies installed"
     else
-        if "$SCRIPT_DIR/install.sh"; then
-            echo -e "${GREEN}✓${NC} Dependencies installed"
-        else
-            echo -e "${RED}✗${NC} Dependency installation failed"
-            exit 1
-        fi
+        echo -e "${RED}✗${NC} Dependency installation failed"
+        exit 1
     fi
     
     # Step 3: Prepare directories

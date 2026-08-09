@@ -2,6 +2,7 @@
 #
 # Real Shell Dependency Installer
 # Installs required dependencies for Real Shell on Arch Linux
+# This script must run as normal user, uses sudo for system operations
 #
 
 set -e
@@ -13,9 +14,19 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Check if running as root
-if [ "$EUID" -ne 0 ]; then 
-    echo -e "${RED}Please run as root or use sudo${NC}"
+# Refuse to run as root
+if [ "$EUID" -eq 0 ]; then
+    echo -e "${RED}ERROR: Do not run Real Shell installer as root.${NC}"
+    echo
+    echo "This installer must run as a normal user."
+    echo "It will use sudo for system operations automatically."
+    echo
+    exit 1
+fi
+
+# Check for sudo availability
+if ! command -v sudo >/dev/null 2>&1; then
+    echo -e "${RED}ERROR: sudo is required for system package installation.${NC}"
     exit 1
 fi
 
@@ -42,7 +53,7 @@ install_package() {
         return 0
     else
         echo -e "${YELLOW}→${NC} Installing $name..."
-        pacman -S --noconfirm --needed "$package"
+        sudo pacman -S --noconfirm --needed "$package"
         echo -e "${GREEN}✓${NC} $name installed"
         return 0
     fi
@@ -62,12 +73,16 @@ install_aur() {
         # Check if yay is installed
         if ! command -v yay &> /dev/null; then
             echo -e "${YELLOW}→${NC} Installing yay for AUR support..."
-            pacman -S --noconfirm --needed base-devel git
-            git clone https://aur.archlinux.org/yay.git /tmp/yay
-            cd /tmp/yay
+            sudo pacman -S --noconfirm --needed base-devel git
+            
+            local build_dir
+            build_dir="$(mktemp -d)"
+            
+            git clone https://aur.archlinux.org/yay.git "$build_dir/yay"
+            cd "$build_dir/yay"
             makepkg -si --noconfirm
             cd -
-            rm -rf /tmp/yay
+            rm -rf "$build_dir"
         fi
         
         yay -S --noconfirm --needed "$package"
@@ -82,7 +97,7 @@ main() {
     
     # Update package databases
     print_header "Updating Package Databases"
-    pacman -Sy
+    sudo pacman -Sy
     
     # Core System Dependencies
     print_header "Core System Dependencies"
@@ -145,23 +160,23 @@ main() {
     print_header "Enabling System Services"
     
     echo -e "${YELLOW}→${NC} Enabling NetworkManager..."
-    systemctl enable NetworkManager.service
+    sudo systemctl enable NetworkManager.service
     
     echo -e "${YELLOW}→${NC} Enabling PipeWire..."
     systemctl --user enable pipewire.service
     systemctl --user enable pipewire-pulse.service
     
     echo -e "${YELLOW}→${NC} Enabling Bluetooth..."
-    systemctl enable bluetooth.service
+    sudo systemctl enable bluetooth.service
     
     # Start services
     print_header "Starting System Services"
     
     echo -e "${YELLOW}→${NC} Starting NetworkManager..."
-    systemctl start NetworkManager.service
+    sudo systemctl start NetworkManager.service
     
     echo -e "${YELLOW}→${NC} Starting Bluetooth..."
-    systemctl start bluetooth.service
+    sudo systemctl start bluetooth.service
     
     # Summary
     print_header "Installation Complete"
