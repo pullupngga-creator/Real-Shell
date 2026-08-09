@@ -1,11 +1,8 @@
 import QtQuick
-import "./Environment.qml" as Environment
-import "./DependencyChecker.qml" as DependencyChecker
-import "../session/SessionManager.qml" as SessionManager
-import "../settings/ConfigurationManager.qml" as ConfigurationManager
-import "../settings/PersistentStorage.qml" as PersistentStorage
-import "../services/ServiceRegistry.qml" as ServiceRegistry
-import "../services/BackendFactory.qml" as BackendFactory
+import "." as Runtime
+import "../session" as Session
+import "../settings" as Settings
+import "../services" as Services
 import "../../core" as Core
 
 /**
@@ -19,31 +16,31 @@ QtObject {
     id: root
     
     // Component instances
-    Environment.Environment {
+    Runtime.Environment {
         id: environment
     }
     
-    DependencyChecker.DependencyChecker {
+    Runtime.DependencyChecker {
         id: dependencyChecker
     }
     
-    SessionManager.SessionManager {
+    Session.SessionManager {
         id: sessionManager
     }
     
-    ConfigurationManager.ConfigurationManager {
+    Settings.ConfigurationManager {
         id: configManager
     }
     
-    PersistentStorage.PersistentStorage {
+    Settings.PersistentStorage {
         id: persistentStorage
     }
     
-    ServiceRegistry.ServiceRegistry {
+    Services.ServiceRegistry {
         id: serviceRegistry
     }
     
-    BackendFactory.BackendFactory {
+    Services.BackendFactory {
         id: backendFactory
     }
     
