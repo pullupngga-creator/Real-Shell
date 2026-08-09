@@ -1,5 +1,5 @@
 import QtQuick
-import "shell/runtime/Bootstrap.qml" as Bootstrap
+import "shell/runtime"
 
 /**
  * Real Shell - Quickshell Entry Point
@@ -15,7 +15,7 @@ Item {
     id: root
     
     // Bootstrap instance
-    Bootstrap.Bootstrap {
+    Bootstrap {
         id: bootstrap
     }
     
