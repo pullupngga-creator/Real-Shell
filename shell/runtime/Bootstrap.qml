@@ -3,7 +3,7 @@ import "." as Runtime
 import "../session" as Session
 import "../settings" as Settings
 import "../services" as Services
-import "../../core" as Core
+import "../core" as Core
 
 /**
  * Real OS Runtime Bootstrap

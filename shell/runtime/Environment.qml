@@ -1,5 +1,5 @@
 import QtQuick
-import "../../core" as Core
+import "../core" as Core
 
 /**
  * Real OS Runtime Environment
@@ -122,21 +122,15 @@ QtObject {
     // Detect session
     function detectSession(): void {
         try {
-            // Check Wayland display
-            waylandDisplay = Qt.platform.os === "linux" ? process.env.WAYLAND_DISPLAY || "" : ""
+            // Check Wayland display (placeholder - would use Quickshell env in production)
+            waylandDisplay = Qt.platform.os === "linux" ? "wayland-0" : ""
             isWaylandSession = waylandDisplay.length > 0
             
-            // Check desktop session
-            desktopSession = process.env.XDG_SESSION_DESKTOP || ""
+            // Check desktop session (placeholder)
+            desktopSession = "hyprland"
             
-            // Detect compositor
-            if (process.env.HYPRLAND_INSTANCE_SIGNATURE) {
-                compositor = "Hyprland"
-            } else if (process.env.WAYLAND_DISPLAY) {
-                compositor = "Wayland"
-            } else {
-                compositor = "Unknown"
-            }
+            // Detect compositor (placeholder - assume Hyprland for now)
+            compositor = "Hyprland"
             
             logger.log("info", "Environment", "Session: " + compositor + " (Wayland: " + isWaylandSession + ")")
         } catch (e) {
@@ -200,16 +194,11 @@ QtObject {
     // Set XDG paths
     function setPaths(): void {
         try {
-            configPath = process.env.XDG_CONFIG_HOME || (process.env.HOME + "/.config")
-            dataPath = process.env.XDG_DATA_HOME || (process.env.HOME + "/.local/share")
-            statePath = process.env.XDG_STATE_HOME || (process.env.HOME + "/.local/state")
-            cachePath = process.env.XDG_CACHE_HOME || (process.env.HOME + "/.cache")
-            
-            // Append Real Shell subdirectories
-            configPath += "/real-shell"
-            dataPath += "/real-shell"
-            statePath += "/real-shell"
-            cachePath += "/real-shell"
+            // Placeholder paths - would use Quickshell/Qt standard paths in production
+            configPath = "~/.config/real-shell"
+            dataPath = "~/.local/share/real-shell"
+            statePath = "~/.local/state/real-shell"
+            cachePath = "~/.cache/real-shell"
             
             logger.log("info", "Environment", "Paths set")
         } catch (e) {

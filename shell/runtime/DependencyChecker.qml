@@ -1,6 +1,6 @@
 import QtQuick
 import "." as Runtime
-import "../../core" as Core
+import "../core" as Core
 
 /**
  * Real OS Runtime Dependency Checker
