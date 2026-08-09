@@ -62,9 +62,15 @@ start_shell() {
         exit 1
     fi
     
-    # Check Quickshell
-    if ! command -v quickshell &> /dev/null; then
+    # Check Quickshell (try both 'qs' and 'quickshell')
+    QUICKSHELL_CMD=""
+    if command -v qs &> /dev/null; then
+        QUICKSHELL_CMD="qs"
+    elif command -v quickshell &> /dev/null; then
+        QUICKSHELL_CMD="quickshell"
+    else
         echo -e "${RED}✗${NC} Quickshell not found"
+        echo -e "  Neither 'qs' nor 'quickshell' command found"
         echo -e "Run ${BLUE}./scripts/install.sh${NC} to install dependencies"
         exit 1
     fi
@@ -94,7 +100,7 @@ start_shell() {
     
     # Start in background and save PID
     cd "$PROJECT_DIR"
-    quickshell shell.qml > "$STATE_DIR/logs/shell/quickshell.log" 2>&1 &
+    $QUICKSHELL_CMD shell.qml > "$STATE_DIR/logs/shell/quickshell.log" 2>&1 &
     local pid=$!
     
     # Save PID
@@ -150,6 +156,19 @@ main() {
                 exit 1
             fi
             
+            # Check Quickshell (try both 'qs' and 'quickshell')
+            QUICKSHELL_CMD=""
+            if command -v qs &> /dev/null; then
+                QUICKSHELL_CMD="qs"
+            elif command -v quickshell &> /dev/null; then
+                QUICKSHELL_CMD="quickshell"
+            else
+                echo -e "${RED}✗${NC} Quickshell not found"
+                echo -e "  Neither 'qs' nor 'quickshell' command found"
+                echo -e "Run ${BLUE}./scripts/install.sh${NC} to install dependencies"
+                exit 1
+            fi
+            
             # Set environment variables
             export QT_QPA_PLATFORM=wayland
             export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
@@ -158,7 +177,7 @@ main() {
             
             # Start in foreground
             cd "$PROJECT_DIR"
-            quickshell shell.qml
+            $QUICKSHELL_CMD shell.qml
             ;;
         *)
             start_shell
