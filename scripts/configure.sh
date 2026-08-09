@@ -153,12 +153,11 @@ main() {
     # Create Hyprland integration
     print_header "Creating Hyprland Integration"
     
-    local hyprland_config='# Real Shell Hyprland Integration
+    local hyprland_config="# Real Shell Hyprland Integration
 # This file is sourced by Hyprland to start Real Shell
 
 # Start Real Shell on session startup
-exec-once = '"$PROJECT_DIR"'/scripts/run.sh'
-'
+exec-once = $PROJECT_DIR/scripts/run.sh"
     
     write_config "$CONFIG_DIR/hyprland.conf" "$hyprland_config"
     
