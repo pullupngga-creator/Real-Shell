@@ -16,37 +16,14 @@ QtObject {
     id: root
     
     // Component instances
-    Runtime.Environment {
-        id: environment
-    }
-    
-    Runtime.DependencyChecker {
-        id: dependencyChecker
-    }
-    
-    Session.SessionManager {
-        id: sessionManager
-    }
-    
-    Settings.ConfigurationManager {
-        id: configManager
-    }
-    
-    Settings.PersistentStorage {
-        id: persistentStorage
-    }
-    
-    Services.ServiceRegistry {
-        id: serviceRegistry
-    }
-    
-    Services.BackendFactory {
-        id: backendFactory
-    }
-    
-    Core.Logger {
-        id: logger
-    }
+    property Runtime.Environment environment: Runtime.Environment {}
+    property Runtime.DependencyChecker dependencyChecker: Runtime.DependencyChecker {}
+    property Session.SessionManager sessionManager: Session.SessionManager {}
+    property Settings.ConfigurationManager configManager: Settings.ConfigurationManager {}
+    property Settings.PersistentStorage persistentStorage: Settings.PersistentStorage {}
+    property Services.ServiceRegistry serviceRegistry: Services.ServiceRegistry {}
+    property Services.BackendFactory backendFactory: Services.BackendFactory {}
+    property Core.Logger logger: Core.Logger {}
     
     // Bootstrap state
     property string bootstrapName: "Bootstrap"

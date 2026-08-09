@@ -12,13 +12,8 @@ QtObject {
     id: root
     
     // Component instances
-    Runtime.Environment {
-        id: environment
-    }
-    
-    Core.Logger {
-        id: logger
-    }
+    property Runtime.Environment environment: Runtime.Environment {}
+    property Core.Logger logger: Core.Logger {}
     
     // Dependency checker identification
     property string checkerName: "DependencyChecker"

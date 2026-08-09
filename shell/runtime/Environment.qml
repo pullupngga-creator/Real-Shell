@@ -12,9 +12,7 @@ QtObject {
     id: root
     
     // Component instance
-    Core.Logger {
-        id: logger
-    }
+    property Core.Logger logger: Core.Logger {}
     
     // Environment identification
     property string environmentName: "Environment"
