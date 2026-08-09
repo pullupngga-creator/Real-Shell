@@ -6,7 +6,7 @@ import "../settings/ConfigurationManager.qml" as ConfigurationManager
 import "../settings/PersistentStorage.qml" as PersistentStorage
 import "../services/ServiceRegistry.qml" as ServiceRegistry
 import "../services/BackendFactory.qml" as BackendFactory
-import "../../core/Logger.qml" as Logger
+import "../../core" as Core
 
 /**
  * Real OS Runtime Bootstrap
@@ -47,7 +47,7 @@ QtObject {
         id: backendFactory
     }
     
-    Logger.Logger {
+    Core.Logger {
         id: logger
     }
     
@@ -85,17 +85,17 @@ QtObject {
     signal stepFailed(string step, string error)
     
     // States
-    readonly property string StateIdle: "idle"
-    readonly property string StateRunning: "running"
-    readonly property string StateCompleted: "completed"
-    readonly property string StateFailed: "failed"
+    readonly property string stateIdle: "idle"
+    readonly property string stateRunning: "running"
+    readonly property string stateCompleted: "completed"
+    readonly property string stateFailed: "failed"
     
     // Start bootstrap
     function start(): bool {
         try {
             logger.log("info", "Bootstrap", "Starting Real Shell bootstrap")
             
-            state = StateRunning
+            state = stateRunning
             currentStepIndex = 0
             progress = 0.0
             
@@ -107,7 +107,7 @@ QtObject {
             return true
         } catch (e) {
             logger.log("error", "Bootstrap", "Failed to start bootstrap: " + e.message)
-            state = StateFailed
+            state = stateFailed
             bootstrapFailed(e.message)
             return false
         }
@@ -132,7 +132,7 @@ QtObject {
             }
             
             // Bootstrap complete
-            state = StateCompleted
+            state = stateCompleted
             progress = 100.0
             currentStep = "completed"
             
@@ -141,7 +141,7 @@ QtObject {
             logger.log("info", "Bootstrap", "Real Shell bootstrap completed successfully")
         } catch (e) {
             logger.log("error", "Bootstrap", "Bootstrap failed: " + e.message)
-            state = StateFailed
+            state = stateFailed
             bootstrapFailed(e.message)
         }
     }
