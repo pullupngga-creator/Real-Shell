@@ -100,7 +100,7 @@ start_shell() {
     
     # Start in background and save PID
     cd "$PROJECT_DIR"
-    $QUICKSHELL_CMD shell.qml > "$STATE_DIR/logs/shell/quickshell.log" 2>&1 &
+    "$QUICKSHELL_CMD" --path "$PROJECT_DIR/shell.qml" > "$STATE_DIR/logs/shell/quickshell.log" 2>&1 &
     local pid=$!
     
     # Save PID
@@ -177,7 +177,7 @@ main() {
             
             # Start in foreground
             cd "$PROJECT_DIR"
-            $QUICKSHELL_CMD shell.qml
+            "$QUICKSHELL_CMD" --path "$PROJECT_DIR/shell.qml"
             ;;
         *)
             start_shell
