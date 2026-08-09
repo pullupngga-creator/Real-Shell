@@ -1,7 +1,6 @@
-pragma Singleton
 import QtQuick
-import "./Environment.qml" as Environment
-import "../../core/Logger.qml" as Logger
+import "." as Runtime
+import "../../core" as Core
 
 /**
  * Real OS Runtime Dependency Checker
@@ -12,9 +11,14 @@ import "../../core/Logger.qml" as Logger
 QtObject {
     id: root
     
-    // Components
-    property var environment: Environment.Environment
-    property var logger: Logger.Logger
+    // Component instances
+    Runtime.Environment {
+        id: environment
+    }
+    
+    Core.Logger {
+        id: logger
+    }
     
     // Dependency checker identification
     property string checkerName: "DependencyChecker"

@@ -1,6 +1,5 @@
-pragma Singleton
 import QtQuick
-import "../../core/Logger.qml" as Logger
+import "../../core" as Core
 
 /**
  * Real OS Runtime Environment
@@ -12,8 +11,10 @@ import "../../core/Logger.qml" as Logger
 QtObject {
     id: root
     
-    // Logger
-    property var logger: Logger.Logger
+    // Component instance
+    Core.Logger {
+        id: logger
+    }
     
     // Environment identification
     property string environmentName: "Environment"
