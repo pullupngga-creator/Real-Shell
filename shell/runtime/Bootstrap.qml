@@ -1,4 +1,3 @@
-pragma Singleton
 import QtQuick
 import "./Environment.qml" as Environment
 import "./DependencyChecker.qml" as DependencyChecker
@@ -19,15 +18,38 @@ import "../../core/Logger.qml" as Logger
 QtObject {
     id: root
     
-    // Components
-    property var environment: Environment.Environment
-    property var dependencyChecker: DependencyChecker.DependencyChecker
-    property var sessionManager: SessionManager.SessionManager
-    property var configManager: ConfigurationManager.ConfigurationManager
-    property var persistentStorage: PersistentStorage.PersistentStorage
-    property var serviceRegistry: ServiceRegistry.ServiceRegistry
-    property var backendFactory: BackendFactory.BackendFactory
-    property var logger: Logger.Logger
+    // Component instances
+    Environment.Environment {
+        id: environment
+    }
+    
+    DependencyChecker.DependencyChecker {
+        id: dependencyChecker
+    }
+    
+    SessionManager.SessionManager {
+        id: sessionManager
+    }
+    
+    ConfigurationManager.ConfigurationManager {
+        id: configManager
+    }
+    
+    PersistentStorage.PersistentStorage {
+        id: persistentStorage
+    }
+    
+    ServiceRegistry.ServiceRegistry {
+        id: serviceRegistry
+    }
+    
+    BackendFactory.BackendFactory {
+        id: backendFactory
+    }
+    
+    Logger.Logger {
+        id: logger
+    }
     
     // Bootstrap state
     property string bootstrapName: "Bootstrap"

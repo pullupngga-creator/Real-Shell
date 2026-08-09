@@ -14,23 +14,20 @@ import "shell/runtime/Bootstrap.qml" as Bootstrap
 Item {
     id: root
     
-    // Bootstrap reference
-    property var bootstrap: Bootstrap.Bootstrap
+    // Bootstrap instance
+    Bootstrap.Bootstrap {
+        id: bootstrap
+    }
     
     // Initialize on startup
     Component.onCompleted: {
         console.log("Real Shell: Quickshell entry point loaded")
         
         // Initialize bootstrap (this handles all initialization)
-        if (bootstrap) {
-            console.log("Real Shell: Starting bootstrap sequence")
-            bootstrap.bootstrapCompleted.connect(onBootstrapCompleted)
-            bootstrap.bootstrapFailed.connect(onBootstrapFailed)
-            bootstrap.start()
-        } else {
-            console.error("Real Shell: Bootstrap not available")
-            Qt.quit()
-        }
+        console.log("Real Shell: Starting bootstrap sequence")
+        bootstrap.bootstrapCompleted.connect(onBootstrapCompleted)
+        bootstrap.bootstrapFailed.connect(onBootstrapFailed)
+        bootstrap.start()
     }
     
     // Handle bootstrap completion
