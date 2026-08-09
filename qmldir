@@ -1,0 +1,11 @@
+module RealShell
+singleton Application 1.0 shell/core/Application.qml
+singleton Bootstrap 1.0 shell/runtime/Bootstrap.qml
+singleton Environment 1.0 shell/runtime/Environment.qml
+singleton DependencyChecker 1.0 shell/runtime/DependencyChecker.qml
+singleton SessionManager 1.0 shell/session/SessionManager.qml
+singleton Logger 1.0 shell/core/Logger.qml
+singleton ConfigurationManager 1.0 shell/settings/ConfigurationManager.qml
+singleton PersistentStorage 1.0 shell/settings/PersistentStorage.qml
+singleton ServiceRegistry 1.0 shell/services/ServiceRegistry.qml
+singleton BackendFactory 1.0 shell/services/BackendFactory.qml
